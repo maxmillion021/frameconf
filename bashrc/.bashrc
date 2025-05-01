@@ -152,3 +152,7 @@ function fzf-git-branch() {
 
 # Aliases for fzf functions
 alias fzfb='fzf-git-branch'
+
+########### SSH #############
+eval "$(ssh-agent -s)"
+ssh-add .ssh/github
