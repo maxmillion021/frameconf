@@ -23,7 +23,7 @@ alias .4='cd ../../../..'
 alias home='cd ~'
 
 # ===== System Aliases =====
-alias update='sudo pacman -Syu'
+alias update='sudo pacman -Syu && yay -Syu'
 alias ports='netstat -tulanp'
 alias mem='free -h'
 alias disk='df -h'
