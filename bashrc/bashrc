@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 ###############################################
 #                  Aliases                    #
 ###############################################
@@ -82,7 +81,7 @@ parse_git_branch() {
 }
 
 # Custom prompt
-PS1="${GREEN}\u@\h${RESET}:${BLUE}\w${YELLOW}\$(parse_git_branch)${RESET}\$ "
+PS1="\t ${GREEN}\u@\h${RESET}:${BLUE}\w${YELLOW}\$(parse_git_branch)${RESET} \$ "
 
 ###############################################
 #                  Settings                   #
