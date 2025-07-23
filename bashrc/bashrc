@@ -3,7 +3,7 @@
 ###############################################
 
 alias ls='ls --color=auto'
-alias ll='ls -lah'
+alias ll='ls -lah --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
 alias grep='grep --color=auto'
@@ -12,7 +12,7 @@ alias df='df -h'
 alias free='free -h'
 alias cp='cp -i'
 alias mv='mv -i'
-alias rm='rm -i'
+alias rm='trash -v'
 
 # ===== Navigation Aliases =====
 alias ..='cd ..'
@@ -22,22 +22,9 @@ alias .4='cd ../../../..'
 alias home='cd ~'
 
 # ===== System Aliases =====
-alias update='sudo pacman -Syu && yay -Syu'
 alias ports='netstat -tulanp'
 alias mem='free -h'
 alias disk='df -h'
-alias pget='sudo pacman -S'
-alias yget='yay -S'
-
-# ===== Git Aliases =====
-alias g='git'
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit -m'
-alias gp='git push'
-alias gl='git pull'
-alias gd='git diff'
-alias glog='git log --oneline --graph --decorate'
 
 ###############################################
 #                  Scripts                    #
@@ -47,9 +34,8 @@ alias glog='git log --oneline --graph --decorate'
 [[ $- != *i* ]] && return
 
 if [ -f /usr/bin/fastfetch ]; then
-        fastfetch
+  fastfetch
 fi
-
 
 ###############################################
 #                  ENV                        #
@@ -77,7 +63,7 @@ CYAN="\[\033[1;36m\]"
 
 # Git branch in prompt
 parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 # Custom prompt
@@ -86,6 +72,7 @@ PS1="\t ${GREEN}\u@\h${RESET}:${BLUE}\w${YELLOW}\$(parse_git_branch)${RESET} \$ 
 ###############################################
 #                  Settings                   #
 ###############################################
+
 
 # Enable programmable completion features
 if [ -f /etc/bash_completion ]; then
@@ -155,3 +142,6 @@ alias fzfb='fzf-git-branch'
 ########### SSH #############
 eval "$(ssh-agent -s)"
 ssh-add .ssh/github
+
+########### Starship #########
+eval "$(starship init bash)"
