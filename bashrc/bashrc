@@ -14,14 +14,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='trash -v'
 
-# ===== Navigation Aliases =====
-alias ..='cd ..'
-alias ...='cd ../..'
-alias .3='cd ../../..'
-alias .4='cd ../../../..'
-alias home='cd ~'
-
-# ===== System Aliases =====
+# ===== System Aliases ===== #
 alias ports='netstat -tulanp'
 alias mem='free -h'
 alias disk='df -h'
@@ -32,10 +25,6 @@ alias disk='df -h'
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
-if [ -f /usr/bin/fastfetch ]; then
-  fastfetch
-fi
 
 ###############################################
 #                  ENV                        #
@@ -61,23 +50,31 @@ BLUE="\[\033[1;34m\]"
 PURPLE="\[\033[1;35m\]"
 CYAN="\[\033[1;36m\]"
 
-# Git branch in prompt
-parse_git_branch() {
-  git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
 # Custom prompt
-PS1="\t ${GREEN}\u@\h${RESET}:${BLUE}\w${YELLOW}\$(parse_git_branch)${RESET} \$ "
+#PS1="\t ${GREEN}\u@\h${RESET}:${BLUE}\w${YELLOW}\$(parse_git_branch)${RESET} \$ "
 
 ###############################################
 #                  Settings                   #
 ###############################################
 
-
-# Enable programmable completion features
+# ===== bash_completion ===== #
 if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-    fi
+  . /etc/bash_completion
+fi
+# ===== Starship ===== #
+eval "$(starship init bash)"
+
+# ===== Zoxide ===== #
+eval "$(zoxide init bash)"
+
+# ===== NPM ===== #
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+## use nvm lts
+nvm use --lts
+
+# ===== fzf ===== #
 
 # FZF Installation check and setup
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -96,32 +93,32 @@ export FZF_COMPLETION_TRIGGER='**'
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates
 _fzf_compgen_path() {
-    fd --hidden --follow --exclude ".git" . "$1"
+  fd --hidden --follow --exclude ".git" . "$1"
 }
 
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-    fd --type d --hidden --follow --exclude ".git" . "$1"
+  fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 # Advanced customization of fzf options via _fzf_comprun function
 _fzf_comprun() {
-    local command=$1
-    shift
+  local command=$1
+  shift
 
-    case "$command" in
-        cd)           fzf --preview 'tree -C {} | head -200'   "$@" ;;
-        export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-        ssh)          fzf --preview 'dig {}'                   "$@" ;;
-        *)           fzf --preview 'bat -n --color=always {}' "$@" ;;
-    esac
+  case "$command" in
+  cd) fzf --preview 'tree -C {} | head -200' "$@" ;;
+  export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+  ssh) fzf --preview 'dig {}' "$@" ;;
+  *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+  esac
 }
 
 # File search and open
 # Ctrl+F to search files
 function fzf-find-file() {
-    local file
-    file=$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}') &&
+  local file
+  file=$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}') &&
     ${EDITOR:-vim} "$file"
 }
 
@@ -129,9 +126,9 @@ bind -x '"\C-f": fzf-find-file'
 
 # Git specific fzf functions
 function fzf-git-branch() {
-    git branch -a --color=always | grep -v '/HEAD\s' | sort |
+  git branch -a --color=always | grep -v '/HEAD\s' | sort |
     fzf --height 50% --ansi --multi --tac --preview-window right:70% \
-        --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1)' |
+      --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1)' |
     sed 's/^..//' | cut -d' ' -f1 |
     sed 's#^remotes/##'
 }
@@ -139,9 +136,3 @@ function fzf-git-branch() {
 # Aliases for fzf functions
 alias fzfb='fzf-git-branch'
 
-########### SSH #############
-eval "$(ssh-agent -s)"
-ssh-add .ssh/github
-
-########### Starship #########
-eval "$(starship init bash)"
