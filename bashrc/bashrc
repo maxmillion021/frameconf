@@ -13,11 +13,7 @@ alias free='free -h'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='trash -v'
-
-# ===== System Aliases ===== #
-alias ports='netstat -tulanp'
-alias mem='free -h'
-alias disk='df -h'
+alias cc='clean'
 
 ###############################################
 #                  Scripts                    #
@@ -30,7 +26,7 @@ alias disk='df -h'
 #                  ENV                        #
 ###############################################
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export VISUAL="nvim"
 export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=10000
