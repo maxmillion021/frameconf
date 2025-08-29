@@ -13,7 +13,7 @@ alias free='free -h'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='trash -v'
-alias cc='clean'
+alias cc='clear'
 
 ###############################################
 #                  Scripts                    #
