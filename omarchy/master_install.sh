@@ -87,3 +87,6 @@ modify_hyprland_config() {
 
 # Execute main function
 main
+
+# install packages
+source packages.sh
