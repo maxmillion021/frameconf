@@ -130,3 +130,7 @@ function fzf-git-branch() {
 # Aliases for fzf functions
 alias fzfb='fzf-git-branch'
 
+#NPM
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/share/nvm/init-nvm.sh" ] && \. "/usr/share/nvm/init-nvm.sh"
+
