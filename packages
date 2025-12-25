@@ -1,0 +1,28 @@
+#!/bin/bash
+
+PACKAGE_FILE="packages.conf"
+
+# Check if running with root/sudo privileges
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run this script with sudo or as root"
+  exit 1
+fi
+
+# Check if packages file exists
+if [ ! -f "$PACKAGE_FILE" ]; then
+  echo "Error: Configuration file $PACKAGE_FILE not found"
+  exit 1
+fi
+
+installed_packages=()
+failed_packages=()
+
+while read -r package; do
+  if pacman -S --noconfirm --needed "$package" > /dev/null 2>&1; then
+    installed_packages+=("$package")
+  else
+    failed_packages+=("$package")
+  fi
+done < "$PACKAGE_FILE"
+echo "Installed packages: ${installed_packages[*]}"
+echo "Failed packages: ${failed_packages[*]}"
