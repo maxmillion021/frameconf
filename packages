@@ -16,8 +16,24 @@ else
   exit 1
 fi
 
+progress_bar() {
+  local current=$1
+  local total=$2
+  local width=$((COLUMNS / 3))
+
+  local percent=$((current * 100 / total))
+  local filled=$((width * current / total))
+  local empty=$((width - filled))
+
+  printf "\r["
+  printf "%*s" "$filled" | tr ' ' '#'
+  printf "%*s" "$empty" | tr ' ' ' '
+  printf "] %3d%% (%d/%d) installing: %s" "$percent" "$current" "$total" "$package"
+}
+
 installed_packages=()
 failed_packages=()
+pack_len=${#packages[@]}
 
 for package in "${packages[@]}"; do
   if pacman -S --noconfirm --needed "$package" >/dev/null 2>&1; then
@@ -25,6 +41,10 @@ for package in "${packages[@]}"; do
   else
     failed_packages+=("$package")
   fi
+  progress_bar "$((current + 1))" "$pack_len" "$package"
+  ((current++))
 done
-echo "Installed packages: ${installed_packages[*]}"
-echo "Failed packages: ${failed_packages[*]}"
+printf "\r"
+printf "Installed packages: %s" "${installed_packages[*]}"
+printf "\n"
+printf "Failed packages: %s" "${failed_packages[*]}"
