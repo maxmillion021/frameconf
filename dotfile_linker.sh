@@ -48,19 +48,19 @@ done
 
 #Hyprland config modify
 #mkdir -p "$HOME_CONFIG/hypr"
-modify_hyprland_config() {
-    local override_line="source = ~/.config/hypr/omarchy_override.conf"
-    
-    # Ensure Hyprland config exists
-    [ -f "$HYPRLAND_CONFIG" ] || error "Hyprland config not found: $HYPRLAND_CONFIG"
-    
-    # Check if source line already exists
-    if ! grep -Fxq "$override_line" "$HYPRLAND_CONFIG"; then
-        echo "" >> "$HYPRLAND_CONFIG"
-        echo "# omarchy_override" >> "$HYPRLAND_CONFIG"
-        echo "$override_line" >> "$HYPRLAND_CONFIG"
-        echo "Added override to Hyprland config"
-    else
-        echo "Override already exists in Hyprland config"
-    fi
-}
+# modify_hyprland_config() {
+#     local override_line="source = ~/.config/hypr/omarchy_override.conf"
+#
+#     # Ensure Hyprland config exists
+#     [ -f "$HYPRLAND_CONFIG" ] || error "Hyprland config not found: $HYPRLAND_CONFIG"
+#
+#     # Check if source line already exists
+#     if ! grep -Fxq "$override_line" "$HYPRLAND_CONFIG"; then
+#         echo "" >> "$HYPRLAND_CONFIG"
+#         echo "# omarchy_override" >> "$HYPRLAND_CONFIG"
+#         echo "$override_line" >> "$HYPRLAND_CONFIG"
+#         echo "Added override to Hyprland config"
+#     else
+#         echo "Override already exists in Hyprland config"
+#     fi
+# }
