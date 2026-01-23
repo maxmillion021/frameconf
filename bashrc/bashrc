@@ -127,8 +127,15 @@ function fzf-git-branch() {
     sed 's#^remotes/##'
 }
 
+# Git diff fzf function
+function fzf-git-diff() {
+  preview="git diff $@ --color=always -- {-1}"
+  git diff $@ --name-only | fzf -m --ansi --preview $preview
+}
 # Aliases for fzf functions
 alias fzfb='fzf-git-branch'
+alias fzfd='fzf-git-diff'
+
 
 #NPM
 export NVM_DIR="$HOME/.nvm"
