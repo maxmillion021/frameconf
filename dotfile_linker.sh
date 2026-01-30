@@ -3,7 +3,8 @@ set -eu  # Exit on errors and undefined variables
 
 # Determine script and source directories more robustly
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SOURCE_DIR="$(dirname "$SCRIPT_DIR")"
+#SOURCE_DIR="$(dirname "$SCRIPT_DIR")"
+SOURCE_DIR=$PWD
 
 # Configuration paths
 HOME_CONFIG="$HOME/.config"
@@ -18,7 +19,7 @@ declare -A configs=(
     ["$HOME_CONFIG/nvim"]="${SOURCE_DIR}/nvim"
     #["$HOME_CONFIG/hypr/omarchy_override.conf"]="${SOURCE_DIR}/omarchy/omarchy_override.conf"
 )
-#create symlinks
+# create symlinks
 create_symlink() {
     local source="$1"
     local target="$2"
@@ -30,7 +31,9 @@ create_symlink() {
     
     # Create symlink
     if ln -s "$source" "$target" 2>/dev/null; then
-        echo "Created symlink: $target"
+        echo "Created symlink!"
+	echo "Source	$SOURCE_DIR"
+	echo "Target	$target"
     else
         echo "Failed to create symlink: $target"
     fi
@@ -39,7 +42,7 @@ for target in "${!configs[@]}"; do
     source="${configs[$target]}"
     
     # Check if source exists
-    [ -e "$source" ] || error "Source does not exist: $source"
+    [ -e "$source" ] || echo "Source does not exist: $source"
     
     # Create symlink
     create_symlink "$source" "$target"
