@@ -1,9 +1,5 @@
 return {
   {
-    "neovim/nvim-lspconfig",
-    opts = { autoformat = false },
-  },
-  {
     "nvim-mini/mini.surround",
     opts = {
       mappings = {
@@ -12,7 +8,7 @@ return {
         find = "<leader>sf",
         find_left = "<leader>sF",
         highlight = "<leader>sh",
-        replace = "<leader>sr",
+        replace = "<leader>sR",
         pdate_n_lines = "<leader>sn",
       },
     },
@@ -60,4 +56,17 @@ return {
     "ErichDonGubler/lsp_lines.nvim",
   },
   { "shortcuts/no-neck-pain.nvim" },
+  {
+    'MagicDuck/grug-far.nvim',
+    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
+    -- additional lazy config to defer loading is not really needed...
+    config = function()
+      -- optional setup call to override plugin options
+      -- alternatively you can set options with vim.g.grug_far = { ... }
+      require('grug-far').setup({
+        -- options, see Configuration section below
+        -- there are no required options atm
+      });
+    end
+  },
 }
