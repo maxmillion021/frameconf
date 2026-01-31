@@ -14,6 +14,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='trash -v'
 alias cc='clear'
+alias type='type -a'
 
 # ===== git Aliases =====
 alias pushf='git push --force-with-lease --force-if-includes'
@@ -107,7 +108,6 @@ _fzf_comprun() {
   *) fzf --preview 'bat -n --color=always {}' "$@" ;;
   esac
 }
-
 # File search and open
 # Ctrl+F to search files
 function fzf-find-file() {
@@ -115,9 +115,7 @@ function fzf-find-file() {
   file=$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}') &&
     ${EDITOR:-vim} "$file"
 }
-
 bind -x '"\C-f": fzf-find-file'
-
 # Git specific fzf functions
 function fzf-git-branch() {
   git branch -a --color=always | grep -v '/HEAD\s' | sort |
@@ -126,7 +124,6 @@ function fzf-git-branch() {
     sed 's/^..//' | cut -d' ' -f1 |
     sed 's#^remotes/##'
 }
-
 # Git diff fzf function
 function fzf-git-diff() {
   preview="git diff $@ --color=always -- {-1}"
@@ -135,7 +132,6 @@ function fzf-git-diff() {
 # Aliases for fzf functions
 alias fzfb='fzf-git-branch'
 alias fzfd='fzf-git-diff'
-
 
 #NPM
 export NVM_DIR="$HOME/.nvm"
