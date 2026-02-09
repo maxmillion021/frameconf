@@ -6,7 +6,14 @@ return {
          enabled = false,
        },
       diagnostics = {
-        globals = {"vim"}
+        globals = {"vim"},
+      },
+      servers = {
+       ['*'] = {
+         keys = {
+           -- Add a keymap
+          },
+        },
       },
     },
   },
