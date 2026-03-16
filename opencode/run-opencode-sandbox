@@ -1,0 +1,20 @@
+#!/bin/bash
+
+PROJECT_DIR=$(pwd)
+
+bwrap \
+  --ro-bind /usr /usr \
+  --symlink usr/lib /lib \
+  --symlink usr/lib64 /lib64 \
+  --symlink usr/bin /bin \
+  --symlink usr/sbin /sbin \
+  --proc /proc \
+  --dev /dev \
+  --tmpfs /tmp \
+  --tmpfs /run \
+  --bind "$PROJECT_DIR" "$PROJECT_DIR" \
+  --chdir "$PROJECT_DIR" \
+  --unshare-all \
+  --share-net \
+  --hostname opencode-sandbox \
+  opencode .

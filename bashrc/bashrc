@@ -137,3 +137,5 @@ alias fzfd='fzf-git-diff'
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/share/nvm/init-nvm.sh" ] && \. "/usr/share/nvm/init-nvm.sh"
 
+# opencode
+export PATH=/home/xam/.opencode/bin:$PATH
