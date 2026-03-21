@@ -1,5 +1,12 @@
 #!/bin/bash
 
+CURRENT_UID=$(id -u)
+CURRENT_GID=$(id -g)
+
+OPENCODE_BIN="/home/xam/.opencode/bin/opencode"
+OPENCODE_DIR="/home/xam/.opencode"
+CONFIG_DIR="$HOME/.config/opencode"
+DATA_DIR="$HOME/.local/share/opencode"
 PROJECT_DIR=$(pwd)
 
 bwrap \
@@ -7,14 +14,25 @@ bwrap \
   --symlink usr/lib /lib \
   --symlink usr/lib64 /lib64 \
   --symlink usr/bin /bin \
-  --symlink usr/sbin /sbin \
   --proc /proc \
   --dev /dev \
+  --dev-bind /dev/shm /dev/shm \
   --tmpfs /tmp \
   --tmpfs /run \
+  --ro-bind /etc/resolv.conf /etc/resolv.conf \
+  --ro-bind /etc/ssl /etc/ssl \
+  --ro-bind /etc/ca-certificates /etc/ca-certificates \
+  --ro-bind /etc/hosts /etc/hosts \
+  --ro-bind "$OPENCODE_DIR" "$OPENCODE_DIR" \
+  --bind "$CONFIG_DIR" "$CONFIG_DIR" \
+  --bind "$DATA_DIR" "$DATA_DIR" \
   --bind "$PROJECT_DIR" "$PROJECT_DIR" \
-  --chdir "$PROJECT_DIR" \
+  --setenv PATH "/usr/bin:$OPENCODE_DIR/bin" \
+  --setenv HOME "$HOME" \
+  --uid "$CURRENT_UID" \
+  --gid "$CURRENT_GID" \
   --unshare-all \
   --share-net \
-  --hostname opencode-sandbox \
-  opencode .
+  --die-with-parent \
+  --chdir "$PROJECT_DIR" \
+  "$OPENCODE_BIN" .

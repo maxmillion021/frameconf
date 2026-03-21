@@ -15,6 +15,7 @@ alias mv='mv -i'
 alias rm='trash -v'
 alias cc='clear'
 alias type='type -a'
+alias opencode='/home/xam/coding/frameconf/opencode/run-opencode-sandbox'
 
 # ===== git Aliases =====
 alias pushf='git push --force-with-lease --force-if-includes'
